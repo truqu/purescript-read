@@ -10,7 +10,7 @@ module Data.String.Read
 import Prelude ((>>>), pure)
 
 import Data.Maybe (Maybe(..), fromMaybe)
-import Data.String (charAt)
+import Data.String.CodeUnits (charAt)
 
 
 -- | Represent types that can be read from strings (enum-like ADT)
