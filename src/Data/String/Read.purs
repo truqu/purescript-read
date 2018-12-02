@@ -7,9 +7,9 @@ module Data.String.Read
   , readDefault
   ) where
 
-import Prelude ((>>>), pure)
-
-import Data.Maybe (Maybe(..), fromMaybe)
+import Prelude ((>>>), pure, (<>), ($))
+import Data.Either (Either(..), note, hush)
+import Data.Maybe (fromMaybe)
 import Data.String.CodeUnits (charAt)
 
 
@@ -17,7 +17,7 @@ import Data.String.CodeUnits (charAt)
 class Read a where
   read
     :: String
-    -> Maybe a
+    -> Either String a
 
 
 -- | Represent types that have a zero value
@@ -31,7 +31,7 @@ readDefault
   => String
   -> a
 readDefault =
-  read >>> fromMaybe zero
+  read >>> hush >>> fromMaybe zero
 
 
 instance readString :: Read String where
@@ -41,7 +41,7 @@ instance readString :: Read String where
 
 instance readChar :: Read Char where
   read =
-    charAt 0
+    charAt 0 >>> note "Could not read the first char of an empty string."
 
 
 instance readBoolean :: Read Boolean where
@@ -49,7 +49,7 @@ instance readBoolean :: Read Boolean where
     case s of
       "true"  -> pure true
       "false" -> pure false
-      _       -> Nothing
+      o       -> Left $ o <> " is not a representation of a boolean value."
 
 
 instance zeroString :: Zero String where
