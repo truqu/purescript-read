@@ -1,6 +1,5 @@
 {
   "name": "purescript-read",
-  "version": "1.0.0",
   "description": "class utilities for defining readable types (enums) in PureScript",
   "authors": [
     "TruQu <matthias.benkort@truqu.com>"
